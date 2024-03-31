@@ -1,0 +1,83 @@
+
+---
+title: "SMR Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set Working Directory
+
+```{r}
+setwd('C:\Users\Administrator\Desktop\smr')
+```
+
+## Load the Package
+
+```{r}
+library(SMRinR)
+```
+
+## Initialize the SMRinR Package
+
+```{r}
+SMRinR::SMR_initialize('tools.zip')
+```
+
+## Generate gene eqlt Data
+
+```{r}
+get_gene_qlt(qlt_path = "./eqtlgen/eQTLGen",
+             genes = './os.list/os.list',
+             query=5e-8,
+             out_file='os_eqtl')
+```
+
+## Gene eqlt and Depression SMR Analysis
+
+```{r}
+runSMR(ref='EUR', 
+       gwas_path='MDDgwas.ma', 
+       qlt_path='./os_eqtl', 
+       maf = 0.01,
+       out_file="os_eqtl_smr", 
+       thread = 10)
+```
+
+## Generate gene mqlt Data
+
+```{r}
+get_gene_qlt(qlt_path = "./mqtl/mqtl",
+             genes = './os.list/os_sym.list',
+             query=5e-8,
+             out_file='os_mqtl')
+```
+
+## Gene mqlt and Depression SMR Analysis
+
+```{r}
+runSMR(ref='EUR', 
+       gwas_path='MDDgwas.ma', 
+       qlt_path='./os_mqtl', 
+       maf = 0.01,
+       out_file="os_mqtl_smr", 
+       thread = 10)
+```
+
+## Gene eqlt and mqlt SMR Analysis - Custom Analysis
+
+```{r}
+command=paste0(smrfile(),
+  " --bfile ",
+  "./ref/EUR",
+  " --beqtl-summary ",
+  './os_mqtl', 
+  " --beqtl-summary ",
+  './os_eqtl',
+  " --out ",
+  "myomics"
+)
+runSMR_custom(command)
+```
