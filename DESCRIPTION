@@ -1,0 +1,32 @@
+Package: SMRinR
+Title: The package is for running SMR spftware in R
+Version: 0.99.9
+Authors@R: 
+    c(person(given="Jun",
+    family="Xiao", 
+    email="xiaojun140@qq.com", 
+    role = c("aut","cre")),
+    person(given="Junrong",
+    family="Kang", 
+    email="1466420509@qq.com", 
+    role = "aut"))
+Description: The SMRinR package provides seamless integration of the Statistical 
+    Modeling in R (SMR) software into the R environment, empowering users to 
+    harness the power of SMR directly within R. SMR, renowned for its robust 
+    statistical modeling capabilities, is now accessible through familiar R 
+    syntax, enabling users to streamline their analytical workflows without 
+    leaving the R environment. This package facilitates effortless data 
+    preprocessing, model fitting, and result interpretation, offering a 
+    comprehensive suite of functions tailored to SMR's methodologies.
+License: GPL(>=3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: base
+NeedsCompilation: no
+Packaged: 2024-03-30 23:53:29 UTC; Administrator
+Author: Jun Xiao [aut, cre],
+  Junrong Kang [aut]
+Maintainer: Jun Xiao <xiaojun140@qq.com>
+Depends: 
+    utils
