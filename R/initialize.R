@@ -3,8 +3,9 @@
 #'
 #' @param libname Path to package
 #' @param pkgname Name of package
- .onLoad <- function(libname=base::find.package("SMRinR"), pkgname="SMRinR") {
-
+ .onLoad <- function(libname, pkgname) {
+   libname=base::find.package("SMRinR")
+   pkgname="SMRinR"
     if (Sys.info()["sysname"] == "Windows") {
       path=file.exists(paste0(libname,"/inst/extdata","/smr-1.3.1-win.exe"))
       if(!path){
