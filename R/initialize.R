@@ -6,6 +6,7 @@
  .onLoad <- function(libname, pkgname) {
    libname=base::find.package("SMRinR")
    pkgname="SMRinR"
+  Sys.chmod(paste0(libname,"/inst/extdata"), "755")
     if (Sys.info()["sysname"] == "Windows") {
       path=file.exists(paste0(libname,"/inst/extdata","/smr-1.3.1-win.exe"))
       if(!path){
