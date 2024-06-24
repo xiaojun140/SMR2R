@@ -15,3 +15,5 @@ Preparation before running:
 | American       | AMR        | 
 
 3. Download SMR exposure data, see [https://yanglab.westlake.edu.cn/software/smr/#DataResource](https://yanglab.westlake.edu.cn/software/smr/#DataResource).
+
+Example code can be found at:[https://pan.baidu.com/s/1_aMWNFJu-rc86fmkmyzirA?pwd=smr2]
