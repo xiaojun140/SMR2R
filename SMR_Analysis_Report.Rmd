@@ -1,0 +1,95 @@
+
+---
+title: "SMR Analysis Report"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Set work directory
+```{r}
+# setwd('workdir')
+```
+
+# Load necessary libraries
+```{r}
+library(SMR2R)
+```
+
+# Generate gene eQTL data
+```{r}
+get_gene_qlt(qlt_path = "./eqtlgen/eQTLGen",
+             genes = './os.list/os.list',
+             query = 5e-8,
+             out_file = 'os_eqtl')
+```
+
+# SMR analysis for gene eQTL and depression
+```{r}
+runSMR(ref = 'EUR', 
+       gwas_path = 'MDDgwas.ma', 
+       qlt_path = './os_eqtl', 
+       maf = 0.01,
+       out_file = "os_eqtl_smr", 
+       thread = 10)
+```
+
+# Generate gene mQTL data
+```{r}
+get_gene_qlt(qlt_path = "./mqtl/mqtl",
+             genes = './os.list/os_sym.list',
+             query = 5e-8,
+             out_file = 'os_mqtl')
+```
+
+# SMR analysis for gene mQTL and depression
+```{r}
+runSMR(ref = 'EUR', 
+       gwas_path = 'MDDgwas.ma', 
+       qlt_path = './os_mqtl', 
+       maf = 0.01,
+       out_file = "os_mqtl_smr", 
+       thread = 10)
+```
+
+# Custom SMR analysis combining eQTL and mQTL
+```{r}
+command = paste0(smrfile(),
+  " --bfile ",
+  "./ref/EUR",
+  " --beqtl-summary ",
+  './os_mqtl', 
+  " --beqtl-summary ",
+  './os_eqtl',
+  " --out ",
+  "myomics"
+)
+system(command)
+```
+
+# Prepare plot file
+```{r}
+plotfile = SMR2R::getplot(ref = "EUR",
+               gwas_path = 'MDDgwas.ma', 
+               qlt_path = './os_eqtl', 
+               probe = 'ENSG00000198929', 
+               hgfile = "glist-hg19")
+```
+
+# Plotting
+```{r}
+# SMREffectPlot
+SMREffectPlot(data = plotfile,
+              trait_name = "MDD",
+              cisWindow = 2000,
+              transWindow = 5000,
+              pointsize = 20)
+
+# SMRLocusPlot
+# plotfile <- SMR2R::ReadSMRData('./plot/myplot.ENSG00000198929.txt')
+SMR2R::SMRLocusPlot(data = plotfile, smr_thresh = 1e-5, heidi_thresh = 0.05, plotWindow = 1000, max_anno_probe = 16)
+```
